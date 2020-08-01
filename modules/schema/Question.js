@@ -5,6 +5,7 @@ module.exports.Question = async(database) => {
         const schema = `
             question_name: string @index(exact) .
             question_text: string .
+            answer_paths: [uid] @reverse .
         `;
         const operation = new dgraph.Operation();
         operation.setSchema(schema);
