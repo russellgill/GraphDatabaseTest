@@ -1,0 +1,17 @@
+{
+  "name": "graphdatabase",
+  "version": "1.0.0",
+  "description": "",
+  "main": "Test.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "run": "node index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dgraph": "^0.13.0",
+    "dgraph-js": "^20.3.0",
+    "express": "^4.17.1"
+  }
+}
