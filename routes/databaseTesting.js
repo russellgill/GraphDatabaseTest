@@ -1,9 +1,8 @@
 const express = require('express');
 const { getDB } = require('../modules/graphDatabase');
 const { queryData } = require('../modules/queries/Query');
-const { createData } = require('../modules/mutations/Create');
 const { Destroy } = require('../modules/mutations/Destroy');
-const e = require('express');
+const { createData } = require('../modules/mutations/Create');
 
 const router = express.Router();
 
