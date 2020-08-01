@@ -4,7 +4,7 @@ const grpc = require("grpc");
 let _db;
 const errorMessage = "No Graph Database Connection Made!";
 
-module.exports.initGDB = (callback) => {
+module.exports.initGDB = async(callback) => {
     var dgraphClient;
     if (_db){
         console.log("Existing Connection Detected. Skipping Initialization");
@@ -19,7 +19,7 @@ module.exports.initGDB = (callback) => {
     }
     if(dgraphClient){
         _db = dgraphClient;
-        return callback(null, _db);
+        return await callback(null, _db);
     } else {
         throw ReferenceError(errorMessage);
     }

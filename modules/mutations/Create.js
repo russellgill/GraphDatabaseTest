@@ -5,15 +5,17 @@ module.exports.createData = async(dgraphClient, entry) => {
     try{
         const mutationBase = {
             uid: entry.uid,
-            questionName: entry.questionName,
-            text: entry.string,
+            question_name: entry.questionName,
+            question_text: entry.text,
         };
         const mutation = new dgraph.Mutation();
         mutation.setSetJson(mutationBase);
-        await transaction.mutate(mutation);
+        const results = await transaction.mutate(mutation);
         await transaction.commit();
+        return results;
     } catch (err){
         console.log(err);
         await transaction.discard();
+        return null;
     }
 }
