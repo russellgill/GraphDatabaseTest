@@ -8,7 +8,7 @@ module.exports.initGDB = async(callback) => {
     var dgraphClient;
     if (_db){
         console.log("Existing Connection Detected. Skipping Initialization");
-        return 
+        return await callback(null, _db);
     }
     try{
         const clientStub = new dgraph.DgraphClientStub();
