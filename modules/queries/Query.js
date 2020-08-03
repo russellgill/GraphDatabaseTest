@@ -8,7 +8,9 @@ module.exports.queryData = async function(databaseClient, queryJSON){
                 uid
                 question_name
                 question_text
-                answer_paths
+                answer_paths {
+                    uid
+                }
             }
         }`
         const vars = { $questionName: question };

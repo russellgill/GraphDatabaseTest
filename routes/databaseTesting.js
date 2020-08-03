@@ -3,6 +3,8 @@ const { getDB } = require('../modules/graphDatabase');
 const { queryData } = require('../modules/queries/Query');
 const { Destroy } = require('../modules/mutations/Destroy');
 const { createData } = require('../modules/mutations/Create');
+const { createRelation } = require('../modules/mutations/CreateRelation');
+const { request } = require('express');
 
 const router = express.Router();
 
@@ -58,12 +60,41 @@ router.get("/view-nodes", async(req, res) => {
     }
 });
 
+router.post("/add-relation", async(req, res) => {
+    const requestBody = req.body;
+    const questionName = requestBody.questionName;
+    const relationName = requestBody.relationName;
+    var errorArray = [];
+    const db = getDB();
+    try {
+        const entry = await queryData(db, { questionName });
+        const entryObject = entry.all.find(entry => entry.question_name == questionName);
+        console.log(entryObject);
+        console.log(`Adding relation to object with UID ${entryObject.uid}`);
+        console.log(`Existing relations are ${entryObject.answer_paths}`);
+        const relation = await queryData(db, { questionName: requestBody.relationName });
+        const relationID = relation.all.find(entry => entry.question_name == relationName).uid;
+        const response = await createRelation(db, entryObject.uid, relationID, null);
+        console.log(response); 
+        console.log(`Adding ${relationID} as the relation`);
+    } catch (err){
+        console.log(err);
+        errorArray.push(err);
+    }
+    if (errorArray.length !== 0){
+        res.statusCode = 500;
+        res.json({ success: false });
+    } else {
+        res.statusCode = 200;
+        res.json({ success: true });
+    }
+});
+
 router.post("/create-node", async(req, res) => {
-    console.log("Running");
     const requestBody = req.body;
     var errorArray = [];
     const db = getDB();
-    console.log(`Creating Entry With Data: ${JSON.stringify(requestBody)}`)
+    console.log(`Creating Entry With Data: ${JSON.stringify(requestBody)}`);
     try{
         const response = await createData(db, {
             uid: `_:${requestBody.questionName.toLowerCase()}`,
