@@ -1,5 +1,5 @@
 # GraphDatabaseTest
-Testing the DGraph System
+Testing the Dgraph client in Node.js
 
 ### Running
 
